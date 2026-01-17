@@ -1,0 +1,109 @@
+# Agusta CCTV Configuration
+
+# Camera Settings
+cameras:
+  - name: "Front Door"
+    url: "rtsp://username:password@192.168.1.100:554/stream1"
+    type: "rtsp"
+    enabled: true
+    
+  - name: "Back Entrance"
+    url: "rtsp://username:password@192.168.1.101:554/stream1"
+    type: "rtsp"
+    enabled: true
+    
+  - name: "Side Gate"
+    url: "0"  # USB Camera
+    type: "usb"
+    enabled: false
+
+# Detection Settings
+detection:
+  # Confidence threshold for face detection (0.0 - 1.0)
+  confidence_threshold: 0.75
+  
+  # Threshold below which person is considered unknown
+  unknown_threshold: 0.6
+  
+  # Process every nth frame (higher = faster but less accurate)
+  frame_skip: 2
+  
+  # Minimum face size to detect (in pixels)
+  min_face_size: 40
+  
+  # Use GPU acceleration if available
+  use_gpu: true
+
+# Alarm System
+alarm:
+  enabled: true
+  
+  # Cooldown period between alarms (seconds)
+  cooldown_seconds: 60
+  
+  # Notification methods
+  notification_methods:
+    - email
+    - sms
+    - push
+    
+  # Email settings
+  email:
+    smtp_server: "smtp.gmail.com"
+    smtp_port: 587
+    sender_email: "your-email@gmail.com"
+    sender_password: "your-app-password"
+    recipient_emails:
+      - "alert@example.com"
+      
+  # SMS settings (Twilio)
+  sms:
+    account_sid: "your_twilio_account_sid"
+    auth_token: "your_twilio_auth_token"
+    from_number: "+1234567890"
+    to_numbers:
+      - "+0987654321"
+
+# Database
+database:
+  path: "data/visitors.db"
+  backup_enabled: true
+  backup_interval_hours: 24
+
+# Logging
+logging:
+  # Save snapshots of detected intruders
+  save_snapshots: true
+  snapshot_path: "data/snapshots/"
+  
+  # Keep snapshots for X days
+  snapshot_retention_days: 30
+  
+  # Log file path
+  log_file: "logs/agusta.log"
+  
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  log_level: "INFO"
+
+# Web Dashboard
+web:
+  host: "0.0.0.0"
+  port: 5000
+  debug: false
+  
+# Model Paths
+models:
+  face_detector: "models/face_detector/haarcascade_frontalface_default.xml"
+  face_recognizer: "models/face_recognizer/trained_model.pkl"
+  object_detector: "models/yolov8n.pt"
+
+# Performance
+performance:
+  # Maximum FPS to process
+  max_fps: 15
+  
+  # Resolution to resize frames to (width, height)
+  process_resolution: [640, 480]
+  
+  # Number of worker threads
+  num_workers: 2
